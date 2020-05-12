@@ -1,0 +1,83 @@
+.buytable {
+	margin-top: 10px;
+	margin-left: 150px;
+}
+
+.buytable th{
+	font-size: small;
+	font-weight: lighter;
+} 
+
+.chs_address{
+	margin-top: 10px;
+	width: auto;
+	border: 1px solid orange;
+	background: #ffe8d7;
+}
+.chs_address_top{
+	width: auto;
+	height: 30px;
+	margin: auto;
+	border-bottom: 1px solid orange;
+}
+.chs_address_top_tit{
+	float: left;
+	font-size: 90%;
+	font-weight: bold;
+	line-height: 2;
+	color: #ff9b00;
+}
+.chs_address_con{
+	margin-top: 10px;
+	margin-left: 50px;
+	width: auto;
+	height: 30px;
+	cursor: pointer;
+	line-height: 2;
+}
+.chs_address_con:hover{
+	background: #ffbc94;
+}
+.chs_address_con span{
+	margin-left: 20px;
+}
+.chs_address_con input{
+	float: left;
+	width: 15px;
+	height: 15px;
+	cursor: pointer;
+	margin-top: 6px;
+}
+.chs_address_con_detail{
+	float: left;
+	margin-left: 50px;
+}
+
+.order_title{
+	width: auto;
+	height: 30px;
+	background:linear-gradient(to bottom,#d8d8d8,#efefef);
+	margin-top: 10px;
+}
+.order_end{
+	position: fixed;
+	bottom: 0;
+	box-shadow: 1px -8px 12px rgba(9, 8, 8, 0.2);
+	margin-top: 20px;
+	width: 960px;
+	height: 70px;
+	background: linear-gradient(to bottom,#ffeee2,#ffc355);
+}
+.pay_now{
+	border: none;
+	width: 100px;
+	height: 40px;
+	background: linear-gradient(to bottom,#ffaf30,#f7210b);
+	cursor: pointer;
+	color: white;
+	font-weight: bold;
+	border-radius: 3px;
+}
+.pay_now:hover {
+	background: linear-gradient(to bottom,#fad08e,#f6190e);
+}

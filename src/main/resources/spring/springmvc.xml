@@ -1,0 +1,47 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:mvc="http://www.springframework.org/schema/mvc"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd 
+		http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc.xsd 
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:component-scan base-package="com.yc.ssm.controller"/>
+	<context:component-scan base-package="com.yc.ssm.service.impl"/>
+
+	<!-- 静态资源解析 包括 ：js、css、img、.. -->
+	<mvc:resources location="/static/" mapping="/static/**" />
+	<mvc:resources location="/static/js/" mapping="/static/js/**" />
+	<mvc:resources location="/static/css/" mapping="/static/css/**" />
+	<mvc:resources location="/static/img/" mapping="/static/img/**" />
+	<mvc:resources location="/static/font/" mapping="/static/font/**" />
+
+	<mvc:annotation-driven/>
+
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/pages/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+	<!-- 自定义参数绑定 -->
+	<!-- <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean"> 
+		转换器 <property name="converters"> <list> 日期类型转换 <bean class="com.yc.ssm.controller.converter.CustomDateConverter" 
+		/> </list> </property> </bean> -->
+
+
+
+	<!-- 文件上传 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 设置上传文件的最大尺寸为5MB -->
+		<property name="maxUploadSize" value="5242880"/>
+	</bean>
+
+	<!-- 全局异常处理器 -->
+<!--	<bean class="com.yc.ssm.exception.CustomExceptionResolver"/>-->
+
+</beans>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yc.ssm.mapper.CartMapper">
+
+    <resultMap id="baseColumn" type="com.yc.ssm.po.Cart">
+        <id column="cart_id" property="cartId" jdbcType="INTEGER"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="item_id" property="itemId" jdbcType="INTEGER"/>
+        <result column="item_num" property="itemNum" jdbcType="INTEGER"/>
+    </resultMap>
+
+
+    <select id="selectByUserIdItemId" parameterType="com.yc.ssm.po.Cart" resultMap="baseColumn">
+        select * from cart where user_id=#{userId} and item_id=#{itemId}
+    </select>
+
+    <update id="updateByCartId" parameterType="com.yc.ssm.po.Cart">
+        update cart
+        set item_num = #{itemNum, jdbcType=INTEGER}
+        where cart_id = #{cartId, jdbcType=INTEGER}
+    </update>
+
+    <update id="updateByCartIdSelective" parameterType="com.yc.ssm.po.Cart">
+        update cart
+        <set>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="itemId != null">
+                item_id = #{itemId},
+            </if>
+            <if test="itemNum != null">
+                item_num = #{itemNum},
+            </if>
+        </set>
+        <where>
+            cart_id = #{cartId}
+        </where>
+    </update>
+
+    <insert id="addCart" parameterType="com.yc.ssm.po.Cart">
+        insert into cart (user_id,item_id,item_num)
+        values (#{userId,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER}, #{itemNum,jdbcType=INTEGER})
+    </insert>
+
+    <select id="selectCartsByUserId" parameterType="java.lang.Integer" resultMap="baseColumn">
+        select * from cart where user_id=#{userId}
+    </select>
+
+    <select id="selectCartsByCartId" resultMap="baseColumn">
+        select * from cart where cart_id in
+        <foreach collection="array" open="(" separator="," close=")" item="cartId">
+            #{cartId}
+        </foreach>
+    </select>
+
+    <delete id="deleteCartsByCartIds">
+        delete from cart where cart_id in
+        <foreach collection="cartIds" open="(" separator="," close=")" item="cartId">
+            #{cartId}
+        </foreach>
+    </delete>
+
+</mapper>

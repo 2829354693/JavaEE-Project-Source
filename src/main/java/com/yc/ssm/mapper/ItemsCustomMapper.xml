@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.yc.ssm.mapper.ItemsCustomMapper">
+	<resultMap type="com.yc.ssm.po.Items" id="BaseResultMap">
+		<id column="items_id" property="itemsId" jdbcType="INTEGER" />
+		<result column="items_name" property="itemsName"
+			jdbcType="VARCHAR" />
+		<result column="items_type" property="itemsType"
+			jdbcType="VARCHAR" />
+		<result column="items_price" property="itemsPrice"
+			jdbcType="REAL" />
+		<result column="items_pic" property="itemsPic"
+			jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="selectLastFiveItems" resultMap="BaseResultMap">
+		SELECT * FROM items
+		order by items_id desc limit 0,5
+	</select>
+
+	<select id="selectFirstTenItems" resultMap="BaseResultMap">
+		SELECT * FROM items
+		limit 0,10
+	</select>
+
+	<select id="selectItemsByItemIds" parameterType="java.util.List" resultMap="BaseResultMap">
+		SELECT * FROM items where items_id in
+		<foreach collection="itemIds" item="itemId" open="(" close=")" separator=",">
+			#{itemId}
+		</foreach>
+			order by CASE items_id
+		<foreach collection="itemIds" item="itemId" index="index">
+			WHEN #{itemId} THEN #{index}+1
+		</foreach>
+			END
+	</select>
+
+	<select id="selectAllItemType" resultType="java.lang.String">
+		SELECT items_type FROM
+		items;
+	</select>
+
+	<select id="countByType" parameterType="java.lang.String"
+		resultType="java.lang.Integer">
+		SELECT count(*) FROM items where items_type=#{type}
+	</select>
+
+	<select id="getItemByItemId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		SELECT * FROM items where items_id=#{itemId}
+	</select>
+
+	<select id="getItemNameByItemId" parameterType="java.lang.Integer" resultType="java.lang.String">
+		SELECT items_name FROM items where items_id=#{itemId}
+	</select>
+
+	<select id="getItemPriceByItemId" parameterType="java.lang.Integer" resultType="java.lang.Float">
+		SELECT items_price FROM items where items_id=#{itemId}
+	</select>
+
+	<select id="getItemPicByItemId" parameterType="java.lang.Integer" resultType="java.lang.String">
+		SELECT items_pic FROM items where items_id=#{itemId}
+	</select>
+</mapper>

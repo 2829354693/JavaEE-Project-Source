@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yc.ssm.mapper.ItemsCommentCustomMapper">
+    <resultMap id="baseColumn" type="com.yc.ssm.po.CommentCustom">
+        <id column="comment_id" property="commentId"/>
+        <result column="comment_userid" property="userId"/>
+        <result column="user_name" property="userName"/>
+        <result column="user_level" property="userLevel"/>
+        <result column="user_headpic" property="userHeadPic"/>
+        <result column="comment_time" property="commentTime" jdbcType="TIMESTAMP"/>
+        <result column="comment_content" property="content"/>
+        <result column="comment_grade" property="grade"/>
+        <result column="comment_pic" property="commentPic"/>
+    </resultMap>
+
+
+    <select id="getCommentCustomsByItemId" parameterType="java.lang.Integer" resultMap="baseColumn">
+        select comment_id,comment_userid,user_name,user_level,user_headpic,comment_time,comment_content,comment_grade,comment_pic
+        from items_comment,user where comment_itemid=#{itemId} and comment_userid=user_id
+    </select>
+
+</mapper>

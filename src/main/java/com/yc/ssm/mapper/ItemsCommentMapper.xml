@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yc.ssm.mapper.ItemsCommentMapper" >
+  <resultMap id="BaseResultMap" type="com.yc.ssm.po.ItemsComment" >
+    <id column="comment_id" property="commentId" jdbcType="INTEGER" />
+    <result column="comment_userid" property="commentUserid" jdbcType="INTEGER" />
+    <result column="comment_itemid" property="commentItemid" jdbcType="INTEGER" />
+    <result column="comment_time" property="commentTime" jdbcType="TIMESTAMP" />
+    <result column="comment_grade" property="commentGrade" jdbcType="VARCHAR" />
+    <result column="comment_pic" property="commentPic" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.yc.ssm.po.ItemsComment" extends="BaseResultMap" >
+    <result column="comment_content" property="commentContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    comment_id, comment_userid, comment_itemid, comment_time, comment_grade, comment_pic
+  </sql>
+  <sql id="Blob_Column_List" >
+    comment_content
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.yc.ssm.po.ItemsCommentExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from items_comment
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yc.ssm.po.ItemsCommentExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from items_comment
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from items_comment
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from items_comment
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yc.ssm.po.ItemsCommentExample" >
+    delete from items_comment
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yc.ssm.po.ItemsComment" >
+    insert into items_comment (comment_id, comment_userid, comment_itemid, 
+      comment_time, comment_grade, comment_pic, 
+      comment_content)
+    values (#{commentId,jdbcType=INTEGER}, #{commentUserid,jdbcType=INTEGER}, #{commentItemid,jdbcType=INTEGER}, 
+      #{commentTime,jdbcType=TIMESTAMP}, #{commentGrade,jdbcType=VARCHAR}, #{commentPic,jdbcType=VARCHAR}, 
+      #{commentContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yc.ssm.po.ItemsComment" >
+    insert into items_comment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="commentId != null" >
+        comment_id,
+      </if>
+      <if test="commentUserid != null" >
+        comment_userid,
+      </if>
+      <if test="commentItemid != null" >
+        comment_itemid,
+      </if>
+      <if test="commentTime != null" >
+        comment_time,
+      </if>
+      <if test="commentGrade != null" >
+        comment_grade,
+      </if>
+      <if test="commentPic != null" >
+        comment_pic,
+      </if>
+      <if test="commentContent != null" >
+        comment_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="commentId != null" >
+        #{commentId,jdbcType=INTEGER},
+      </if>
+      <if test="commentUserid != null" >
+        #{commentUserid,jdbcType=INTEGER},
+      </if>
+      <if test="commentItemid != null" >
+        #{commentItemid,jdbcType=INTEGER},
+      </if>
+      <if test="commentTime != null" >
+        #{commentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commentGrade != null" >
+        #{commentGrade,jdbcType=VARCHAR},
+      </if>
+      <if test="commentPic != null" >
+        #{commentPic,jdbcType=VARCHAR},
+      </if>
+      <if test="commentContent != null" >
+        #{commentContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yc.ssm.po.ItemsCommentExample" resultType="java.lang.Integer" >
+    select count(*) from items_comment
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update items_comment
+    <set >
+      <if test="record.commentId != null" >
+        comment_id = #{record.commentId,jdbcType=INTEGER},
+      </if>
+      <if test="record.commentUserid != null" >
+        comment_userid = #{record.commentUserid,jdbcType=INTEGER},
+      </if>
+      <if test="record.commentItemid != null" >
+        comment_itemid = #{record.commentItemid,jdbcType=INTEGER},
+      </if>
+      <if test="record.commentTime != null" >
+        comment_time = #{record.commentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.commentGrade != null" >
+        comment_grade = #{record.commentGrade,jdbcType=VARCHAR},
+      </if>
+      <if test="record.commentPic != null" >
+        comment_pic = #{record.commentPic,jdbcType=VARCHAR},
+      </if>
+      <if test="record.commentContent != null" >
+        comment_content = #{record.commentContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update items_comment
+    set comment_id = #{record.commentId,jdbcType=INTEGER},
+      comment_userid = #{record.commentUserid,jdbcType=INTEGER},
+      comment_itemid = #{record.commentItemid,jdbcType=INTEGER},
+      comment_time = #{record.commentTime,jdbcType=TIMESTAMP},
+      comment_grade = #{record.commentGrade,jdbcType=VARCHAR},
+      comment_pic = #{record.commentPic,jdbcType=VARCHAR},
+      comment_content = #{record.commentContent,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update items_comment
+    set comment_id = #{record.commentId,jdbcType=INTEGER},
+      comment_userid = #{record.commentUserid,jdbcType=INTEGER},
+      comment_itemid = #{record.commentItemid,jdbcType=INTEGER},
+      comment_time = #{record.commentTime,jdbcType=TIMESTAMP},
+      comment_grade = #{record.commentGrade,jdbcType=VARCHAR},
+      comment_pic = #{record.commentPic,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yc.ssm.po.ItemsComment" >
+    update items_comment
+    <set >
+      <if test="commentUserid != null" >
+        comment_userid = #{commentUserid,jdbcType=INTEGER},
+      </if>
+      <if test="commentItemid != null" >
+        comment_itemid = #{commentItemid,jdbcType=INTEGER},
+      </if>
+      <if test="commentTime != null" >
+        comment_time = #{commentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commentGrade != null" >
+        comment_grade = #{commentGrade,jdbcType=VARCHAR},
+      </if>
+      <if test="commentPic != null" >
+        comment_pic = #{commentPic,jdbcType=VARCHAR},
+      </if>
+      <if test="commentContent != null" >
+        comment_content = #{commentContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yc.ssm.po.ItemsComment" >
+    update items_comment
+    set comment_userid = #{commentUserid,jdbcType=INTEGER},
+      comment_itemid = #{commentItemid,jdbcType=INTEGER},
+      comment_time = #{commentTime,jdbcType=TIMESTAMP},
+      comment_grade = #{commentGrade,jdbcType=VARCHAR},
+      comment_pic = #{commentPic,jdbcType=VARCHAR},
+      comment_content = #{commentContent,jdbcType=LONGVARCHAR}
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yc.ssm.po.ItemsComment" >
+    update items_comment
+    set comment_userid = #{commentUserid,jdbcType=INTEGER},
+      comment_itemid = #{commentItemid,jdbcType=INTEGER},
+      comment_time = #{commentTime,jdbcType=TIMESTAMP},
+      comment_grade = #{commentGrade,jdbcType=VARCHAR},
+      comment_pic = #{commentPic,jdbcType=VARCHAR}
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </update>
+</mapper>
