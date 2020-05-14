@@ -42,6 +42,6 @@
 	</bean>
 
 	<!-- 全局异常处理器 -->
-<!--	<bean class="com.yc.ssm.exception.CustomExceptionResolver"/>-->
+	<bean class="com.yc.ssm.exception.CustomExceptionResolver"/>
 
 </beans>
