@@ -12,6 +12,8 @@
 	<context:component-scan base-package="com.yc.ssm.controller"/>
 	<context:component-scan base-package="com.yc.ssm.service.impl"/>
 
+	<mvc:annotation-driven/>
+
 	<!-- 静态资源解析 包括 ：js、css、img、.. -->
 	<mvc:resources location="/static/" mapping="/static/**" />
 	<mvc:resources location="/static/js/" mapping="/static/js/**" />
@@ -19,7 +21,7 @@
 	<mvc:resources location="/static/img/" mapping="/static/img/**" />
 	<mvc:resources location="/static/font/" mapping="/static/font/**" />
 
-	<mvc:annotation-driven/>
+
 
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">

@@ -2,43 +2,12 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script>
 	$(function() {
-		/* var goodses = getCookie();
-		//用来接收总商品的个数
-		var goodsTotalNum = 0;
-		var params = "{\"goodsIds\":\"";
-		for (var i = 0; i < goodses.length; i++) {
-			params += goodses[i].goodsId + ",";
-			goodsTotalNum = parseInt(goodsTotalNum)
-					+ parseInt(goodses[i].goodsNum);
-		}
-
-		//将总的商品个数显示到购物车上
-		//$("b[name=mycart_count]").html(goodsTotalNum);
-
-		//去掉最后一个","
-		params = params.substring(0, params.length - 1);
-		params += "\"}";
-		
-		if(params.length>14){
-			$.getJSON("./goods/getGoodsesByIds", JSON.parse(params), function(r) {
-			
-				var json = JSON.parse(r);
-				var totalMoney = 0;
-				for (var i = 0; i < json.length; i++) {
-					addJSON(json[i], {
-						"goodsNum" : getGoodsNumById(goodses, json[i].id)
-					});
-					var html = template("shopcarTemplate", json[i]);
-					$("#shopcarDiv").prepend(html);
-					totalMoney += json[i].price2 * json[i].goodsNum;
-				}
-				$("b[name=mycart_sum]").html("￥" + totalMoney);
-			});
-		}
- */
 
 		$('.mycart').hover(function() {
 			$('#div_mycart').show();
+			if (${empty sessionScope.user}){
+				$("#total_price").html("￥0.00");
+			}
 			if (${!empty sessionScope.user}){
 				$.get("./user/cartItemNumAndPrice",function (data) {
 					var obj = data;
@@ -49,16 +18,7 @@
 		}, function() {
 			$('#div_mycart').hide();
 		});
-		<%--$('.mycart').on('click',function() {--%>
-		<%--	$('#div_mycart').show();--%>
-		<%--	if (${!empty sessionScope.user}){--%>
-		<%--		$.get("./user/cartItemNumAndPrice",function (data) {--%>
-		<%--			var obj = data;--%>
-		<%--			$("#total_num").html(obj.totalItemNum);--%>
-		<%--			$("#total_price").html("￥"+obj.totalPrice);--%>
-		<%--		});--%>
-		<%--	}--%>
-		<%--});--%>
+
 	});
 </script>
 

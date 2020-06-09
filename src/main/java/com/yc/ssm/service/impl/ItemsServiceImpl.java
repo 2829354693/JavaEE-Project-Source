@@ -19,131 +19,125 @@ import org.springframework.stereotype.Service;
 @Service
 public class ItemsServiceImpl implements ItemsService {
 
-	@Autowired
-	ItemsMapper itemsMapper;
-	
-	@Autowired
-	ItemsCustomMapper itemsCustomMapper;
-	
-	@Override
-	public Items getItemByItemId(Integer itemId) throws Exception {
-		if (itemId == null) {
-			return null;
-		}
-		
-		return itemsMapper.selectByPrimaryKey(itemId);
-	}
+    @Autowired
+    ItemsMapper itemsMapper;
 
-	@Override
-	public List<Items> getItemsByItemIds(List<Integer> itemIds) throws Exception {
-		if (itemIds == null){
-			return null;
-		}
+    @Autowired
+    ItemsCustomMapper itemsCustomMapper;
 
-		return itemsCustomMapper.selectItemsByItemIds(itemIds);
-	}
+    @Override
+    public Items getItemByItemId(Integer itemId) throws Exception {
+        if (itemId == null) {
+            return null;
+        }
 
-	@Override
-	public void updateItem(Items updateItem) throws Exception {
-		if (updateItem == null) {
-			return;
-		}
-		
-		itemsMapper.updateByPrimaryKey(updateItem);
-	}
+        return itemsMapper.selectByPrimaryKey(itemId);
+    }
 
-	@Override
-	public String getItemPicByItemId(Integer itemId) throws Exception {
-		if (itemId == null) {
-			return null;
-		}
-		
-		String itemsPic = getItemByItemId(itemId).getItemsPic();
-		
-		return itemsPic;
-	}
+    @Override
+    public List<Items> getItemsByItemIds(List<Integer> itemIds) throws Exception {
+        if (itemIds == null) {
+            return null;
+        }
 
-	@Override
-	public List<Items> getSelectedItems(Items queryCriteriaVo) throws Exception {
-		ItemsExample itemsExample = new ItemsExample();
-		Criteria criteria = itemsExample.createCriteria();
-		
-		if (queryCriteriaVo.getItemsId() != null) {
-			if (queryCriteriaVo.getItemsName() != null && !queryCriteriaVo.getItemsName().equals("")) {
-				String itemsName = "%" + queryCriteriaVo.getItemsName() + "%";
-				criteria.andItemsIdEqualTo(queryCriteriaVo.getItemsId()).andItemsNameLike(itemsName);
-			} else {
-				criteria.andItemsIdEqualTo(queryCriteriaVo.getItemsId());
-			}
-		} else {
-			if (queryCriteriaVo.getItemsName() != null && !queryCriteriaVo.getItemsName().equals("")) {
-				String itemsName = "%" + queryCriteriaVo.getItemsName() + "%";
-				criteria.andItemsNameLike(itemsName);
-			}
-		}
-		
-		return itemsMapper.selectByExampleWithBLOBs(itemsExample);
-	}
+        return itemsCustomMapper.selectItemsByItemIds(itemIds);
+    }
 
-	@Override
-	public List<Items> getLastFiveItems() throws Exception {
-		
-		return itemsCustomMapper.selectLastFiveItems();
-	}
+    @Override
+    public void updateItem(Items updateItem) throws Exception {
+        if (updateItem == null) {
+            return;
+        }
 
-	@Override
-	public List<Items> getFirstTenItems() throws Exception {
-		
-		return itemsCustomMapper.selectFirstTenItems();
-	}
+        itemsMapper.updateByPrimaryKey(updateItem);
+    }
 
-	@Override
-	public List<ItemsType> getItemsTypeAndNum() throws Exception {
-		List<String> allItemType = itemsCustomMapper.selectAllItemType();
-		Set<String> typeSet = new HashSet<>(allItemType);
-		
-		List<ItemsType> typeAndNumList = new ArrayList<>();
+    @Override
+    public String getItemPicByItemId(Integer itemId) throws Exception {
+        if (itemId == null) {
+            return null;
+        }
 
-		for (String type : typeSet) {
-			ItemsType itemsType = new ItemsType();
-			itemsType.setItemTypeName(type);
-			itemsType.setItemNumByType(itemsCustomMapper.countByType(type));
-			
-			typeAndNumList.add(itemsType);
-		}
-		
-		return typeAndNumList;
-	}
+        String itemsPic = getItemByItemId(itemId).getItemsPic();
 
-	@Override
-	public Set<String> getAllItemType() throws Exception {
-		List<String> allItemType = itemsCustomMapper.selectAllItemType();
-		Set<String> allItemTypeSet = new HashSet<String>(allItemType);
-		
-		return allItemTypeSet;
-	}
+        return itemsPic;
+    }
 
-	@Override
-	public List<Items> getItemsByType(String type) throws Exception {
-		ItemsExample example = new ItemsExample();
-		Criteria criteria = example.createCriteria();
-		criteria.andItemsTypeEqualTo(type);
-		
-		List<Items> itemsByType = itemsMapper.selectByExample(example);
-		
-		return itemsByType;
-	}
+    @Override
+    public List<Items> getSelectedItems(Items queryCriteriaVo) throws Exception {
+        ItemsExample itemsExample = new ItemsExample();
+        Criteria criteria = itemsExample.createCriteria();
 
-	@Override
-	public List<Items> getItemsByWords(String queryWords) throws Exception {
-		String words = "%" + queryWords + "%";
-		ItemsExample example = new ItemsExample();
-		Criteria criteria = example.createCriteria();
-		criteria.andItemsNameLike(words);
-		
-		List<Items> items = itemsMapper.selectByExample(example);
-		
-		return items;
-	}
+        if (queryCriteriaVo.getItemsId() != null) {
+            criteria.andItemsIdEqualTo(queryCriteriaVo.getItemsId());
+        }
+
+        if (queryCriteriaVo.getItemsName() != null && !queryCriteriaVo.getItemsName().equals("")) {
+            String itemsName = "%" + queryCriteriaVo.getItemsName() + "%";
+            criteria.andItemsNameLike(itemsName);
+        }
+        return itemsMapper.selectByExampleWithBLOBs(itemsExample);
+    }
+
+    @Override
+    public List<Items> getLastFiveItems() throws Exception {
+
+        return itemsCustomMapper.selectLastFiveItems();
+    }
+
+    @Override
+    public List<Items> getFirstTenItems() throws Exception {
+
+        return itemsCustomMapper.selectFirstTenItems();
+    }
+
+    @Override
+    public List<ItemsType> getItemsTypeAndNum() throws Exception {
+        List<String> allItemType = itemsCustomMapper.selectAllItemType();
+        Set<String> typeSet = new HashSet<>(allItemType);
+
+        List<ItemsType> typeAndNumList = new ArrayList<>();
+
+        for (String type : typeSet) {
+            ItemsType itemsType = new ItemsType();
+            itemsType.setItemTypeName(type);
+            itemsType.setItemNumByType(itemsCustomMapper.countByType(type));
+
+            typeAndNumList.add(itemsType);
+        }
+
+        return typeAndNumList;
+    }
+
+    @Override
+    public Set<String> getAllItemType() throws Exception {
+        List<String> allItemType = itemsCustomMapper.selectAllItemType();
+        Set<String> allItemTypeSet = new HashSet<String>(allItemType);
+
+        return allItemTypeSet;
+    }
+
+    @Override
+    public List<Items> getItemsByType(String type) throws Exception {
+        ItemsExample example = new ItemsExample();
+        Criteria criteria = example.createCriteria();
+        criteria.andItemsTypeEqualTo(type);
+
+        List<Items> itemsByType = itemsMapper.selectByExample(example);
+
+        return itemsByType;
+    }
+
+    @Override
+    public List<Items> getItemsByWords(String queryWords) throws Exception {
+        String words = "%" + queryWords + "%";
+        ItemsExample example = new ItemsExample();
+        Criteria criteria = example.createCriteria();
+        criteria.andItemsNameLike(words);
+
+        List<Items> items = itemsMapper.selectByExample(example);
+
+        return items;
+    }
 
 }

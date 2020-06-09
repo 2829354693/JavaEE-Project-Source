@@ -20,10 +20,6 @@ public class IndexController {
 	@Autowired
 	ItemsService itemsService;
 
-	@RequestMapping("/thy")
-	public String thy(){
-		return "thy";
-	}
 	
 	@RequestMapping("/index")
 	public String index(Model model, HttpSession session) throws Exception {
