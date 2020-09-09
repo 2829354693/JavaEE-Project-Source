@@ -100,7 +100,7 @@ public class AdminUserController {
 			return "userExist";
 		}
 
-		if (adminUser.getAdminName().equals("")) {
+		if ("".equals(adminUser.getAdminName())) {
 			adminUser.setAdminName("管理员");
 		}
 
@@ -231,19 +231,19 @@ public class AdminUserController {
 	}
 	
 	@RequestMapping("/itemSubmit")
-	public String itemSubmit(Model model, HttpSession session, Items item, MultipartFile items_Pic) throws Exception {
+	public String itemSubmit(Model model, HttpSession session, Items item, MultipartFile itemsPic) throws Exception {
 		Integer adminId = (Integer) session.getAttribute("adminId");
 		AdminUser currentAdmin = adminUserService.getAdminUserById(adminId);
 		model.addAttribute("currentAdmin", currentAdmin);
 		
-		String originalFilename = items_Pic.getOriginalFilename();
+		String originalFilename = itemsPic.getOriginalFilename();
 		if (originalFilename != null && originalFilename.length() > 0) {
-			String itemPic_path = "/home/yucong/easyshop/pictures/items_pic/";
+			String itemPicPath = "/home/yucong/easyshop/pictures/items_pic/";
 			String newItemPicName = UUID.randomUUID() + originalFilename.substring(originalFilename.lastIndexOf("."));
 			
-			File itemPicFile = new File(itemPic_path + newItemPicName); 
+			File itemPicFile = new File(itemPicPath + newItemPicName);
 			
-			items_Pic.transferTo(itemPicFile);
+			itemsPic.transferTo(itemPicFile);
 			
 			item.setItemsPic(newItemPicName);
 		}
@@ -272,20 +272,20 @@ public class AdminUserController {
 	}
 
 	@RequestMapping("/itemUpdateSubmit")
-	public String itemUpdateSubmit(Model model, HttpSession session, Integer itemsId, Items newItem, MultipartFile items_Pic)
+	public String itemUpdateSubmit(Model model, HttpSession session, Integer itemsId, Items newItem, MultipartFile itemsPic)
 			throws Exception {
 		Integer adminId = (Integer) session.getAttribute("adminId");
 		AdminUser currentAdmin = adminUserService.getAdminUserById(adminId);
 		model.addAttribute("currentAdmin", currentAdmin);
 		
-		String originalFilename = items_Pic.getOriginalFilename();
+		String originalFilename = itemsPic.getOriginalFilename();
 		if (originalFilename != null && originalFilename.length() > 0) {
-			String itemPic_path = "/home/yucong/easyshop/pictures/items_pic/";
+			String itemPicPath = "/home/yucong/easyshop/pictures/items_pic/";
 			String newItemPicName = UUID.randomUUID() + originalFilename.substring(originalFilename.lastIndexOf("."));
 			
-			File newItemPic = new File(itemPic_path + newItemPicName); 
+			File newItemPic = new File(itemPicPath + newItemPicName);
 			
-			items_Pic.transferTo(newItemPic);
+			itemsPic.transferTo(newItemPic);
 			
 			newItem.setItemsPic(newItemPicName);
 		} else {

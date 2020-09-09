@@ -43,6 +43,7 @@
       <configuration>
         <setting name="validation-enabled" value="true" />
         <datasource-mapping>
+          <factory-entry name="EasyShopping" />
           <factory-entry name="Entities" />
         </datasource-mapping>
         <naming-strategy-map />
